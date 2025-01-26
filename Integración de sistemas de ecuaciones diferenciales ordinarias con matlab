@@ -1,0 +1,42 @@
+% PAULO SERGIO ESPARZA PONCE   220434023   INRO   %
+
+function dx=Tarea1(t,x)
+
+%-------------------------Definicion de los parametros----------------%
+
+Ip = 0.0079; %Pendulum Moment of Inertia (kgm2)
+Mc = 0.7031; %Lumped mass of the cart system, including the rotor inertia (kg)
+lp = 0.3302; %Distance from Pivot to Centre Of Gravity (kg)
+Mp = 0.23;   %Pendulum Mass with T-fitting (m)
+Fc = 0;      %Cart driven force produced by the motor (N)
+Beq= 4.3;    %Equivalent Viscous Damping Coefficient as seen at the Motor Pinion (Ns/m)
+g  = 9.81;   %Gravitational Constant (m/s2)
+Bp = 0.0024; %Viscous Damping Coefficient as seen at the Pendulum Axis (Nms/rad)
+
+%-------------------------------------------------------------------------%
+
+%-----------------Definicion de las derivadas del sistema-----------------%
+
+ddxc = ((Ip+Mp*lp^2)*Fc + Mp^2*lp^2*g*cos(x(3))*sin(x(3)) - ...
+    (Ip+Mp*lp^2)*Beq*x(2) - (Ip*Mp*lp - Mp^2*lp^3)*x(4)^2*sin(x(3)) ...
+    - Mp*lp*x(4)*cos(x(3))*Bp) / ((Mc + Mp)*Ip + Mc*Mp*lp^2 ...
+    + Mp^2*lp^2*sin(x(3))^2);
+
+dda = ((Mc+Mp)*Mp*g*lp*sin(x(3)) - (Mc+Mp)*Bp*x(4) + Fc*Mp*lp*cos(x(3)) ...
+    - Mp^2*lp^2*x(4)^2*sin(x(3))*cos(x(3)) - ...
+    Beq*Mp*lp*x(2)*cos(x(3))) / ((Mc+Mp)*Ip + Mc*Mp*lp^2 ...
+    + Mp^2*lp^2*sin(x(3))^2);
+
+
+%-------------------------------------------------------------------------%
+
+%-----------------Definicion de la dinamica del sistema-------------------%
+
+dx = zeros(4,1);
+
+dx(1) = x(2);
+dx(2) = ddxc;
+dx(3) = x(4);
+dx(4) = dda;
+
+%-------------------------------------------------------------------------%    
