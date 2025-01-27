@@ -43,11 +43,27 @@ dx(4) = dda;
 
 % ---------------------- ARCHIVO DE ODE PARA EJECUTAR --------------------%
 
-%-------------------------------------------------------------------------% 
-[t,x]=ode45(@Tarea1,[0,10], [0 0 1 0]);
+[t, x] = ode45(@Tarea1, [0, 20], [0 0 deg2rad(1) 0]);
 
+% Crear una figura con subgráficas
+figure;
 
-figure(1)
-plot(t,x);
+% Primera subgráfica: Posición del carrito (xc) y ángulo del péndulo (α)
+subplot(2, 1, 1); % 2 filas, 1 columna, posición 1
+plot(t, x(:,1), 'g', t, x(:,2), 'y');
+title('Posición y Ángulo del Péndulo');
+xlabel('Tiempo');
+ylabel('Posición y Ángulo');
+legend('xc (Posición del Carrito)', 'α (Ángulo del Péndulo)');
+grid on;
 
-%-------------------------------------------------------------------------% 
+% Segunda subgráfica: Velocidades (dxc y dα)
+subplot(2, 1, 2); % 2 filas, 1 columna, posición 2
+plot(t, x(:,3), 'c', t, x(:,4), 'b');
+title('Velocidades del Péndulo');
+xlabel('Tiempo');
+ylabel('Velocidades');
+legend('dxc (Velocidad del Carrito)', 'dα (Velocidad Angular)');
+grid on;
+
+%-------------------------------------------------------------------------%
